@@ -1,12 +1,7 @@
--- Read more about this program in the official Elm guide:
--- https://guide.elm-lang.org/architecture/effects/http.html
-
 import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
 import Http
-import Json.Decode as Decode
-
+import Json.Decode exposing (..)
+import Html.Events exposing (..)
 
 main : Program Never Model Msg
 main =
@@ -17,58 +12,36 @@ main =
     , subscriptions = subscriptions
     }
 
-
-
--- MODEL
-
+type alias Page =
+    { id : String
+    }
 
 type alias Model =
-  { siteMap : String
+  { siteMap : (List Page)
   }
-
-
-init : (Model, Cmd Msg)
-init =
-  ( Model ""
-  , getRandomGif 
-  )
-
-
-
--- UPDATE
-
 
 type Msg
   = MorePlease
-  | NewGif (Result Http.Error String)
-
+  | NewSitemap (Result Http.Error (List Page))
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     MorePlease ->
-      (model, getRandomGif)
+      (model, getSitemap)
 
-    NewGif (Ok newUrl) ->
-      (Model model.siteMap, Cmd.none)
+    NewSitemap (Ok siteMap) ->
+      (Model siteMap, Cmd.none)
 
-    NewGif (Err _) ->
+    NewSitemap (Err _) ->
       (model, Cmd.none)
-
-
-
--- VIEW
-
 
 view : Model -> Html Msg
 view model =
   div []
-    [ h2 [] [text model.siteMap]
-    , button [ onClick MorePlease ] [ text "More Please!" ]
-    , br [] []
+    [ h2 [] [text (toString model.siteMap)], 
+      button [ onClick MorePlease ] [ text "More Please!" ]
     ]
-
-
 
 -- SUBSCRIPTIONS
 
@@ -77,19 +50,22 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.none
 
+init : (Model, Cmd Msg)
+init =
+  ( Model []
+  , getSitemap 
+  )
 
+decodePage : Json.Decode.Decoder Page
+decodePage =
+    Json.Decode.map Page (field "Id" Json.Decode.string)
 
--- HTTP
+getSitemap: Cmd Msg
+getSitemap = Http.send NewSitemap (getPages)
 
-
-getRandomGif : Cmd Msg
-getRandomGif =
+getPages: Http.Request (List Page)
+getPages =
   let
-    url ="Sitemap.json"
+    url ="/Sitemap.json"
   in
-    Http.send NewGif (Http.get url decodeGifUrl)
-
-
-decodeGifUrl : Decode.Decoder String
-decodeGifUrl =
-  Decode.at ["data"] Decode.string
+    (Http.get url (list decodePage))
