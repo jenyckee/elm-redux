@@ -7,7 +7,8 @@ import String exposing (contains)
 view : Model.Model -> Html Model.Msg
 view model = div [] [
     filterInput,
-    ul [] (List.map pageView (List.filter (\page -> contains model.filterString page.id) model.siteMap))
+    ul [] (List.map pageView (List.filter 
+    (\page -> contains model.filterString page.id) model.siteMap))
   ]
 
 filterInput : Html Model.Msg
