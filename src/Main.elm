@@ -1,67 +1,55 @@
 import Html exposing (..)
 import Http
 import Json.Decode exposing (..)
-import Html.Events exposing (..)
+import Model exposing(Model, Msg, Page)
+import View
 
 main : Program Never Model Msg
 main =
   Html.program
     { init = init
-    , view = view
+    , view = View.view
     , update = update
     , subscriptions = subscriptions
     }
 
-type alias Page =
-    { id : String
-    }
-
-type alias Model =
-  { siteMap : (List Page)
-  }
-
-type Msg
-  = MorePlease
-  | NewSitemap (Result Http.Error (List Page))
-
-update : Msg -> Model -> (Model, Cmd Msg)
+update : Msg -> Model.Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    MorePlease ->
+    Model.MorePlease ->
       (model, getSitemap)
 
-    NewSitemap (Ok siteMap) ->
-      (Model siteMap, Cmd.none)
+    Model.NewSitemap (Ok siteMap) ->
+      (Model siteMap "", Cmd.none)
 
-    NewSitemap (Err _) ->
+    Model.NewSitemap (Err _) ->
       (model, Cmd.none)
-
-view : Model -> Html Msg
-view model =
-  div []
-    [ h2 [] [text (toString model.siteMap)], 
-      button [ onClick MorePlease ] [ text "More Please!" ]
-    ]
+    
+    Model.NewFilter f ->
+      ({ model | filterString = f }, Cmd.none)
 
 -- SUBSCRIPTIONS
-
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
   Sub.none
 
+-- INIT
+
 init : (Model, Cmd Msg)
 init =
-  ( Model []
+  ( Model [] ""
   , getSitemap 
   )
 
+-- Http
+
 decodePage : Json.Decode.Decoder Page
 decodePage =
-    Json.Decode.map Page (field "Id" Json.Decode.string)
+    Json.Decode.map2 Page (field "Id" Json.Decode.string)(field "Label" Json.Decode.string)
 
 getSitemap: Cmd Msg
-getSitemap = Http.send NewSitemap (getPages)
+getSitemap = Http.send Model.NewSitemap (getPages)
 
 getPages: Http.Request (List Page)
 getPages =
