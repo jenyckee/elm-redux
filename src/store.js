@@ -3,20 +3,21 @@ import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import createHistory from 'history/createBrowserHistory'
 import rootReducer from './modules'
-import Elm from './Main'
+import Elm from './modules/Main'
 import createElmMiddleware from 'redux-elm-middleware'
 
 export const history = createHistory()
+
+const elmStore = Elm.Reducer.worker()
+const { run, elmMiddleware } = createElmMiddleware(elmStore)
 
 const initialState = {}
 const enhancers = []
 const middleware = [
   thunk,
-  routerMiddleware(history)
+  routerMiddleware(history),
+  elmMiddleware
 ]
-
-const elmStore = Elm.Reducer.worker()
-const { run, elmMiddleware } = createElmMiddleware(elmStore)
 
 if (process.env.NODE_ENV === 'development') {
   const devToolsExtension = window.devToolsExtension
@@ -38,5 +39,6 @@ export default () => {
     composedEnhancers
   )
   run(store)
+  console.log(run.toString())
   return store
 }
