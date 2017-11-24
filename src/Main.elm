@@ -16,6 +16,8 @@ main =
     }
 
 port myPort : (String -> msg) -> Sub msg
+port myOut : (Maybe (List Model.Page)) -> Cmd msg
+port reduce : Model -> Cmd msg
 
 update : Msg -> Model.Model -> (Model, Cmd Msg)
 update msg model =
@@ -24,19 +26,22 @@ update msg model =
       (model, getSitemap)
 
     Model.NewSitemap (Ok siteMap) ->
-      (Model siteMap "", Cmd.none)
+      (Model siteMap "", myOut (Just siteMap))
 
     Model.NewSitemap (Err _) ->
       (model, Cmd.none)
     
     Model.NewFilter f ->
-      ({ model | filterString = f }, Cmd.none)
+      ({ model | filterString = f }, reduce model)
 
 -- SUBSCRIPTIONS
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Sub.none
+    Sub.batch
+        [ myPort Model.NewFilter
+        ]
+
 
 -- INIT
 

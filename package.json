@@ -1,8 +1,14 @@
 {
   "dependencies": {
+    "ramda": "^0.25.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
-    "react-elm-components": "^1.0.1"
+    "react-elm-components": "^1.0.1",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-redux": "next",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

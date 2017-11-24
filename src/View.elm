@@ -12,7 +12,7 @@ view model = div [] [
   ]
 
 filterInput : Html Model.Msg
-filterInput = input [onInput Model.NewFilter] []
+filterInput = div [] [label [] [text "elm-input"], input [onInput Model.NewFilter] []]
 
 pageView : Page -> Html Model.Msg
 pageView page = li [] [text (toString page.label)]
