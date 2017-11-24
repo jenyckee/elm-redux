@@ -4,17 +4,12 @@ import { bindActionCreators } from 'redux'
 import { Button } from '../components/button'
 
 export const Counter = connect(
-  ({elm}) => ({ value: elm.value, count: elm.count })
+  ({elm}) => ({ value: elm.value, siteMap: elm.siteMap })
 )
-(function({dispatch, value = 0, count = 1}) {
+(function({dispatch, siteMap = []}) {
   return (
     <div>
-      <Button onClick={() => dispatch({type: 'ASYNC_INCREMENT'})}>2 sec +</Button>
-      <Button onClick={() => dispatch({type: 'INCREMENT'})}>+</Button>
-      <h2>{value}</h2>
-      <Button onClick={() => dispatch({type: 'ASYNC_DECREMENT'})}>2 sec -</Button>
-      <Button onClick={() => dispatch({type: 'DECREMENT'})}>-</Button>
-      <input type='number' value={count} onChange={({target}) => dispatch({type: 'CHANGE_COUNT', payload: Number(target.value)})} />
+      {siteMap.map(page => <span key={page.Id}>{page.Id}</span>)}
     </div>
   );
 });

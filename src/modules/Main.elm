@@ -1,5 +1,4 @@
 port module Reducer exposing (Model, Msg, init, update, subscriptions)
-
 import Redux
 import Task exposing (..)
 import Process
@@ -20,8 +19,6 @@ port asyncDecrement : (Value -> msg) -> Sub msg
 port decrement : (Value -> msg) -> Sub msg
 
 
-port changeCount : (Payload -> msg) -> Sub msg
-
 
 clock : Sub Msg
 clock =
@@ -35,7 +32,6 @@ subscriptions _ =
         , increment <| always Increment
         , asyncIncrement <| always AsyncIncrement
         , asyncDecrement <| always AsyncDecrement
-        , changeCount ChangeCount
         , clock
         ]
 
@@ -80,7 +76,6 @@ type Msg
     | Decrement
     | AsyncIncrement
     | AsyncDecrement
-    | ChangeCount Payload
 
 
 
@@ -101,9 +96,6 @@ update action model =
 
         AsyncDecrement ->
             ( model, asyncTask Decrement )
-
-        ChangeCount payload ->
-            ( { model | count = payload }, Cmd.none )
 
         TickTock _ ->
             (case model.tickTock of
@@ -126,7 +118,7 @@ asyncTask msg =
     Process.sleep (2 * Time.second)
         |> Task.perform (always msg)
 
-
+main : Program Never Model Msg
 main =
     Redux.program
         { init = init 0
