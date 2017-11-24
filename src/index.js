@@ -1,6 +1,12 @@
 import './main.css';
-import { Main } from './Main.elm';
 import registerServiceWorker from './registerServiceWorker';
+import App from './components/App'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-Main.embed(document.getElementById('root'));
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);
+
 registerServiceWorker();
