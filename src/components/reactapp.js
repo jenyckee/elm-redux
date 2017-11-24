@@ -1,11 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { update } from '../modules/elmreducer'
 
 class ReactApp extends React.Component {
-
-
   render() {
     return (
       <div>
@@ -14,11 +11,11 @@ class ReactApp extends React.Component {
       </div>)
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = ({elm}) => ({
+  tickTock: elm.tickTock
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  update: update
 }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReactApp)

@@ -9,11 +9,10 @@ import store, { history } from './store'
 import ReactApp from './components/reactapp'
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={store()}>
     <ConnectedRouter history={history}>
       <div>
         <ReactApp />
-        <App />
       </div>
     </ConnectedRouter>
   </Provider>,
