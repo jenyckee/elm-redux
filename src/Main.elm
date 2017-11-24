@@ -1,17 +1,21 @@
+port module Main exposing (main)
+
 import Html exposing (..)
 import Http
 import Json.Decode exposing (..)
 import Model exposing(Model, Msg, Page)
 import View
 
-main : Program Never Model Msg
+main : Program String Model Msg
 main =
-  Html.program
+  Html.programWithFlags
     { init = init
     , view = View.view
     , update = update
     , subscriptions = subscriptions
     }
+
+port myPort : (String -> msg) -> Sub msg
 
 update : Msg -> Model.Model -> (Model, Cmd Msg)
 update msg model =
@@ -36,8 +40,8 @@ subscriptions model =
 
 -- INIT
 
-init : (Model, Cmd Msg)
-init =
+init : String -> (Model, Cmd Msg)
+init server =
   ( Model [] ""
   , getSitemap 
   )
