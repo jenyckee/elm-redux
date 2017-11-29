@@ -11,7 +11,7 @@ const enhancers = []
 const middleware = [
   thunk,
   routerMiddleware(history),
-  ...elmMiddleware.map(elm => elm.elmMiddleware),
+  elmMiddleware.elmMiddleware,
 ]
 
 if (process.env.NODE_ENV === 'development') {
@@ -33,6 +33,6 @@ export default () => {
     initialState,
     composedEnhancers
   )
-  elmMiddleware.forEach(elm => elm.run(store))
+  elmMiddleware.run(store)
   return store
 }

@@ -1,4 +1,6 @@
 {
+  "name": "elmreducers",
+  "version": "0.0.1",
   "dependencies": {
     "ramda": "^0.25.0",
     "react": "^16.1.1",
@@ -10,6 +12,10 @@
     "redux": "^3.7.2",
     "redux-elm-middleware": "^4.0.0",
     "redux-thunk": "^2.2.0"
+  },
+  "scripts": {
+    "start": "elm-app start",
+    "build": "elm-app build"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
