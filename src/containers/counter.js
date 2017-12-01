@@ -14,7 +14,7 @@ export const Counter = connect(
   return (
     <div>
       <button onClick={() => refresh(dispatch)}>REFRESH!</button>
-      {siteMap.map(page => <span key={page.Id}>{page.Id}</span>)}
+      <ul>{siteMap.map(page => <li key={page.Id}>{page.Id}</li>)}</ul>
     </div>
   );
 });

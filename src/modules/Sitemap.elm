@@ -9,10 +9,13 @@ import Json.Decode exposing (..)
 import Http
 import Mouse
 
+port increment : (Value -> msg) -> Sub msg
+
 subscriptions : Model -> Sub Msg
 subscriptions _ =
     Sub.batch
         [
+          increment <| always Increment
         ]
 
 
@@ -65,7 +68,7 @@ type alias Payload =
 type Msg
     = NoOp
     | NewSitemap (Result Http.Error (List Page))
-
+    | Increment
 
 -- UPDATE
 
@@ -78,6 +81,9 @@ update action model =
             ({ model | siteMap = siteMap}, Cmd.none)
 
         NewSitemap (Err _) ->
+            (model, Cmd.none)
+
+        Increment -> 
             (model, Cmd.none)
 
         NoOp ->
@@ -104,11 +110,6 @@ getPages =
   in
     Http.get url (list page)
 
-
-asyncTask : Msg -> Cmd Msg
-asyncTask msg =
-    Process.sleep (2 * Time.second)
-        |> Task.perform (always msg)
 
 main : Program Never Model Msg
 main =
