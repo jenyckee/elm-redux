@@ -5,7 +5,7 @@ import Json.Encode as Json
 import Debug
 
 port increment : (Int -> msg) -> Sub msg
-port elmToRedux : ( String, Json.Value ) -> Cmd msg
+port elmToReact : ( String, Json.Value ) -> Cmd msg
 
 subscriptions : Model -> Sub Msg
 subscriptions model = Sub.batch
@@ -55,7 +55,7 @@ main =
                 , ( toString action
                   , encodeModel message
                   )
-                    |> elmToRedux
+                    |> elmToReact
                 ]
             )
 

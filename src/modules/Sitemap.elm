@@ -2,12 +2,9 @@ port module Reducer exposing (Model, Msg, init, update, subscriptions)
 
 import Redux
 import Task exposing (..)
-import Process
-import Time exposing (..)
 import Json.Encode as Json exposing (object, string, int)
 import Json.Decode exposing (..)
 import Http
-import Mouse
 
 port increment : (Value -> msg) -> Sub msg
 
@@ -106,7 +103,7 @@ getSitemap = Http.send NewSitemap getPages
 getPages: Http.Request (List Page)
 getPages =
   let
-    url ="/Sitemap.json"
+    url = "/Sitemap.json"
   in
     Http.get url (list page)
 
