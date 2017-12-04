@@ -24,7 +24,7 @@ update msg model =
             ( model, Cmd.none )
         Increment amount -> 
             let _ = Debug.log "increment" (toString model) in
-            ( { model | value = model.value + 1 }, Cmd.none )
+            ( { model | value = model.value + amount }, Cmd.none )
 
 type alias Model =
     {

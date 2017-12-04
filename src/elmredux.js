@@ -82,4 +82,4 @@ Provider.childContextTypes = {
 
 export const store = createReducer(counter)
 setTimeout(() => store.dispatch({ type: "increment", payload: 1 }), 1000)
-setTimeout(() => store.dispatch({ type: "increment", payload: 1 }), 2000)
+setTimeout(() => store.dispatch({ type: "increment", payload: 2 }), 2000)
