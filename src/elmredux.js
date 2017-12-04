@@ -13,27 +13,28 @@ export const connect = (mapStateToProps, mapDispatchToProps) => {
     class Connect extends Component {
       constructor(props, context) {
         super(props, context)
-        this.state = {}
+        this.state = {
+          storeState: {}
+        }
         this.store = props.store || context.store
       }
   
       handleChange(storeState) {
         const prevStoreState = this.state.storeState
-  
+        
         if (prevStoreState !== storeState) {
           this.setState({storeState})
         }
         console.log(this.state)
       }
-  
+
       componentDidMount() {
-        this.store.subscribe(storeState => this.handleChange(storeState))
-        this.handleChange()
+        this.store.subscribe(storeState => this.handleChange(storeState[1]))
       }
-      
+
       render() {
         const props = {
-          ...mapStateToProps(this.state, this.props)
+          ...mapStateToProps(this.state.storeState, this.props)
         }
         return <WrappedComponent {...props} />
       }
@@ -81,5 +82,5 @@ Provider.childContextTypes = {
 }
 
 export const store = createReducer(counter)
-setTimeout(() => store.dispatch({ type: "increment", payload: 1 }), 1000)
-setTimeout(() => store.dispatch({ type: "increment", payload: 2 }), 2000)
+setTimeout(() => store.dispatch({ type: "increment", payload: 1 }), 0)
+setTimeout(() => store.dispatch({ type: "increment", payload: 2 }), 1000)

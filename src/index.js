@@ -30,9 +30,9 @@ ReactDOM.render(
 /* Experimental */
 
 const mapStateToProps = state => {
-  const value = state.storeState || false
+  console.log(state)
   return ({
-    value: value ? value[1].value : 0
+    value: state.value
   })
 }
 
