@@ -6,7 +6,7 @@ class App extends React.Component {
   render() {
     return (
       <ul>
-        {this.props.value.map(s => <li key={s.Id}>{s.FriendlyUrl}</li>)}
+        {this.props.value.map(s => <li key={s.Id}>{s.Label}</li>)}
       </ul>
     )
   }
