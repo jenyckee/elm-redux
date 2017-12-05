@@ -1,6 +1,6 @@
 # redux-elm
 
-This project is a proof of concept implementation of the redux api while reducers are being written in Elm. 
+This project is a proof of concept implementation of the redux/react-redux api with reducers written in Elm. 
 
 ## Motivation
 
