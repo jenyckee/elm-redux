@@ -1,17 +1,26 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import * as R from 'ramda'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import {createReducer, connect, Provider as ElmProvider} from '../elmredux'
 
 class App extends React.Component {
   render() {
-    return <div/>
+    return (
+      <ul>
+        {this.props.value.map(s => <li key={s.Id}>{s.FriendlyUrl}</li>)}
+      </ul>
+    )
   }
 }
-const mapStateToProps = state => ({
-})
 
+const mapStateToProps = state => {
+  if (!state) {
+    return {
+      value: []
+    }
+  } else return ({
+    value: state.siteMap
+  })
+}
 const mapDispatchToProps = dispatch => bindActionCreators({
 }, dispatch)
 

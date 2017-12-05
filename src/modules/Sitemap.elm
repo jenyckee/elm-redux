@@ -1,7 +1,7 @@
-port module Reducer exposing (Model, Msg, init, update, subscriptions)
+port module Sitemap exposing (Model, Msg, init, update, subscriptions)
 
 import Redux
-import Task exposing (..)
+-- import Task exposing (..)
 import Json.Encode as Json exposing (object, string, int)
 import Json.Decode exposing (..)
 import Http
@@ -15,11 +15,7 @@ subscriptions _ =
           increment <| always Increment
         ]
 
-
 -- MODEL
-
-foo : Value -> Cmd Msg
-foo x = getSitemap
 
 init : ( Model, Cmd Msg )
 init =

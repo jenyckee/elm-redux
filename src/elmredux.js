@@ -1,5 +1,4 @@
 import React, { Component, Children } from 'react'
-import counter from './modules/Counter'
 import PropTypes from 'prop-types'
 import hoistStatics from 'hoist-non-react-statics'
 
@@ -14,7 +13,7 @@ export const connect = (mapStateToProps, mapDispatchToProps) => {
       constructor(props, context) {
         super(props, context)
         this.state = {
-          storeState: {}
+          storeState: undefined
         }
         this.store = props.store || context.store
       }
@@ -25,7 +24,6 @@ export const connect = (mapStateToProps, mapDispatchToProps) => {
         if (prevStoreState !== storeState) {
           this.setState({storeState})
         }
-        console.log(this.state)
       }
 
       componentDidMount() {
@@ -46,8 +44,8 @@ export const connect = (mapStateToProps, mapDispatchToProps) => {
   }
 }
 
-export function createReducer(elmProgram) {
-  const worker = elmProgram.Reducer.worker()
+export function createReducer(elmProgram, key) {
+  const worker = elmProgram[key].worker()
   return {
     dispatch: (action) => {
       const port = worker.ports[action.type]
@@ -81,6 +79,3 @@ Provider.childContextTypes = {
   store: storeShape.isRequired,
 }
 
-export const store = createReducer(counter)
-setTimeout(() => store.dispatch({ type: "increment", payload: 1 }), 0)
-setTimeout(() => store.dispatch({ type: "increment", payload: 2 }), 1000)

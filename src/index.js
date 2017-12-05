@@ -1,50 +1,18 @@
 import './main.css';
 import registerServiceWorker from './registerServiceWorker';
-import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'react-router-redux'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import store, { history } from './store'
-import {Counter} from './containers/counter'
-import {createReducer, connect, Provider as ElmProvider, store as elmStore} from './elmredux'
+import { createReducer, connect, Provider } from './elmredux'
+import Sitemap from './modules/Sitemap'
+import App from './components/App'
 
-class Foo extends React.Component {
-  constructor (props, context) {
-    super(props, context)
-  }
-
-  render() {
-    return <div>{this.props.value}</div>
-  }
-}
+const elmStore = createReducer(Sitemap, "Sitemap")
+setInterval(() => elmStore.dispatch({ type: "increment", payload: 1 }), 1000)
 
 ReactDOM.render(
-  <Provider store={store()}>
-    <ConnectedRouter history={history}>
-      <Counter />
-    </ConnectedRouter>
+  <Provider store={elmStore}>
+    <App/>
   </Provider>,
-  document.getElementById('root')
-);
-
-/* Experimental */
-
-const mapStateToProps = state => {
-  console.log(state)
-  return ({
-    value: state.value
-  })
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-}, dispatch)
-
-const RFoo = connect(mapStateToProps, mapDispatchToProps)(Foo)
-
-ReactDOM.render(
-  <ElmProvider store={elmStore}>
-    <RFoo/>
-  </ElmProvider>,
   document.getElementById('root')
 );
 
