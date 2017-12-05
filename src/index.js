@@ -2,7 +2,7 @@ import './main.css';
 import registerServiceWorker from './registerServiceWorker';
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createReducer, connect, Provider } from './elmredux'
+import { createReducer, connect, Provider } from './elm-redux'
 import Sitemap from './modules/Sitemap'
 import App from './components/App'
 

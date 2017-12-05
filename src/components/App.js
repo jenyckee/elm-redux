@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {createReducer, connect, Provider as ElmProvider} from '../elmredux'
+import {createReducer, connect, Provider as ElmProvider} from '../elm-redux'
 
 class App extends React.Component {
   render() {
